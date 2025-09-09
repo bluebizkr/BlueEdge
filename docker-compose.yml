@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  nodered:
+    image: nodered/node-red
+    container_name: nodered
+    ports:
+      - "1880:1880"
+    volumes:
+      - ./data:/data
+      - ./config/settings.js:/data/settings.js
+    environment:
+      - TZ=Asia/Seoul
+    restart: unless-stopped

@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  nodered:
+    build: .
+    container_name: nodered_prod
+    ports:
+      - "1880:1880"
+    volumes:
+      - ./config/settings.js:/data/settings.js
+    environment:
+      - TZ=Asia/Seoul
+      # Add any production-specific environment variables here
+    restart: always
+
+# If you decide to use a named volume for persistent data (e.g., context storage), uncomment this:
+# volumes:
+#   nodered_data:

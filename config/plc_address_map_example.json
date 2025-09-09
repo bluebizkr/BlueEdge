@@ -1,0 +1,45 @@
+[
+  {
+    "name": "Motor_Speed_RPM",
+    "address": 40001,
+    "functionCode": "Holding Registers",
+    "quantity": 1,
+    "dataType": "int16",
+    "scaling": {"factor": 1, "offset": 0},
+    "unit": "RPM",
+    "pollingRate": "1 second",
+    "description": "Motor speed in revolutions per minute"
+  },
+  {
+    "name": "Tank_Level_Liters",
+    "address": 40003,
+    "functionCode": "Holding Registers",
+    "quantity": 2,
+    "dataType": "float32",
+    "endianness": "big-endian",
+    "scaling": {"factor": 0.1, "offset": 0},
+    "unit": "liters",
+    "pollingRate": "5 seconds",
+    "description": "Water level in the tank, 32-bit float"
+  },
+  {
+    "name": "Pump_Status_Run",
+    "address": 1,
+    "functionCode": "Coils",
+    "quantity": 1,
+    "dataType": "boolean",
+    "pollingRate": "1 second",
+    "description": "Status of the pump (ON/OFF)"
+  },
+  {
+    "name": "Sensor_Temperature_C",
+    "address": 30001,
+    "functionCode": "Input Registers",
+    "quantity": 1,
+    "dataType": "int16",
+    "scaling": {"factor": 0.1, "offset": 0},
+    "unit": "Celsius",
+    "pollingRate": "2 seconds",
+    "description": "Temperature reading from sensor"
+  }
+]

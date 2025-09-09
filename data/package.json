@@ -1,0 +1,16 @@
+{
+    "name": "node-red-project",
+    "description": "A Node-RED Project",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "node-red-contrib-modbus": "~5.43.0"
+    },
+    "devDependencies": {
+        "mocha": "^10.0.0",
+        "node-red-node-test-helper": "^1.0.0"
+    },
+    "scripts": {
+        "test": "mocha test/**/*.test.js"
+    }
+}
