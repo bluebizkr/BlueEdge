@@ -4,3 +4,5 @@ data/.npm/
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+mosquitto/log/
+web-app/frontend/public/build/
