@@ -10,7 +10,7 @@
 
 *   **Docker 및 Docker Compose 설치**: 시스템에 Docker Engine과 Docker Compose가 설치되어 있어야 합니다.
 *   **기본적인 Docker 및 Node-RED 이해**: Docker 컨테이너 및 Node-RED 플로우 생성에 대한 기본적인 지식이 있으면 좋습니다.
-*   **LS PLC Modbus 주소 맵**: 연결하려는 LS PLC의 Modbus 통신 프로토콜 및 주소 맵에 대한 정보가 필요합니다.
+*   **Modbus PLC 주소 맵**: 연결하려는 Modbus PLC의 Modbus 통신 프로토콜 및 주소 맵에 대한 정보가 필요합니다.
 
 ### 3. 프로젝트 구조
 
@@ -229,7 +229,7 @@ module.exports = {
 
 ### 7. Node-RED에서 Modbus 데이터 수집
 
-`node-red-contrib-modbus` 팔레트를 사용하여 LS PLC에서 Modbus 데이터를 수집할 수 있습니다.
+`node-red-contrib-modbus` 팔레트를 사용하여 Modbus PLC에서 Modbus 데이터를 수집할 수 있습니다.
 
 #### 7.1. Modbus TCP Read 노드 설정
 
@@ -239,30 +239,28 @@ module.exports = {
 4.  **`Modbus Read` 노드 설정**: 노드를 더블 클릭하여 설정 창을 엽니다.
     *   **Server 설정**: "Server" 옆의 연필 아이콘을 클릭하여 새 Modbus Server를 추가합니다.
         *   **Type**: `TCP`
-        *   **Host**: LS PLC의 **IP 주소**
+        *   **Host**: Modbus **PLC의 IP 주소**
         *   **Port**: 일반적으로 `502` (PLC 설정 확인)
         *   **Unit-Id**: PLC의 Modbus Unit ID (PLC 설명서 확인)
         *   "Add"를 클릭하여 저장합니다.
     *   **Function**: 읽으려는 데이터 유형 선택 (예: `Holding Registers`)
     *   **Address**: PLC에서 읽으려는 Modbus **시작 주소** (PLC 설명서에서 0-based 또는 1-based 주소 체계 확인)
     *   **Quantity**: 읽으려는 레지스터 또는 코일의 **개수**
-    *   **Name**: 노드 이름 지정 (예: "LS PLC 데이터 읽기")
+    *   **Name**: 노드 이름 지정 (예: "Modbus PLC 데이터 읽기")
 5.  **`Debug` 노드 연결**: `Modbus Read` 노드 뒤에 `Debug` 노드를 연결하여 읽어온 데이터를 확인합니다.
 6.  **배포**: "Deploy" 버튼을 클릭하여 플로우를 배포합니다.
 
-#### 7.2. LS PLC Modbus 주소 맵의 중요성
+#### 7.2. Modbus 주소 맵의 중요성
 
-LS PLC의 정확한 Modbus 주소 맵(어떤 데이터가 어떤 주소에 저장되어 있는지, 데이터 타입은 무엇인지)을 아는 것이 가장 중요합니다. 이 정보는 PLC의 매뉴얼이나 프로그래밍 소프트웨어에서 확인할 수 있습니다. 잘못된 주소나 데이터 타입을 사용하면 올바른 데이터를 읽을 수 없습니다.
+Modbus PLC의 정확한 Modbus 주소 맵(어떤 데이터가 어떤 주소에 저장되어 있는지, 데이터 타입은 무엇인지)을 아는 것이 가장 중요합니다. 이 정보는 PLC의 매뉴얼이나 프로그래밍 소프트웨어에서 확인할 수 있습니다. 잘못된 주소나 데이터 타입을 사용하면 올바른 데이터를 읽을 수 없습니다.
 
 ### 8. 문제 해결
 
 *   **"Cannot GET /" 오류**: Node-RED UI에 접속할 때 이 오류가 발생하면, `http://localhost:1880/red`로 접속했는지 확인하세요. `config/settings.js`에서 `httpAdminRoot`가 `/red`로 설정되어 있기 때문입니다.
 *   **"Cannot connect to the Docker daemon"**: Docker 데몬이 실행되고 있지 않습니다. Docker Desktop을 시작하거나 Docker 데몬을 실행한 후 다시 시도하세요.
 *   **컨테이너가 시작되지 않음**: `docker-compose logs` 명령을 사용하여 컨테이너 로그를 확인하여 오류 메시지를 파악합니다.
-*   **Modbus 통신 실패**: 
+*   **Modbus 통신 실패**:
     *   PLC의 IP 주소와 포트가 올바른지 확인합니다.
     *   PLC가 Modbus 통신을 허용하도록 설정되어 있는지 확인합니다.
     *   Modbus 주소, 기능 코드, 수량이 PLC의 Modbus 맵과 일치하는지 확인합니다.
     *   네트워크 방화벽이 Modbus 포트(기본 502)를 차단하고 있지 않은지 확인합니다.
-
----

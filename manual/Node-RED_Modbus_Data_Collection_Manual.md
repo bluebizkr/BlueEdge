@@ -1,6 +1,6 @@
 ## Node-RED를 이용한 Modbus 데이터 수집 매뉴얼 (주소 맵 활용)
 
-이 매뉴얼은 LS PLC의 Modbus 주소 맵을 기반으로 Node-RED에서 Modbus 데이터를 효과적으로 수집하고 처리하는 방법을 안내합니다.
+이 매뉴얼은 Modbus PLC의 Modbus 주소 맵을 기반으로 Node-RED에서 Modbus 데이터를 효과적으로 수집하고 처리하는 방법을 안내합니다.
 
 ### 1. 서론
 
@@ -10,7 +10,7 @@
 
 *   **Node-RED 환경 실행 중**: Docker Compose를 통해 Node-RED가 정상적으로 실행되고 있어야 합니다.
 *   **`node-red-contrib-modbus` 팔레트 설치 완료**: Node-RED에 Modbus 팔레트가 설치되어 있어야 합니다.
-*   **LS PLC Modbus 주소 맵 확보**: 연결하려는 LS PLC의 Modbus 주소 맵(레지스터/코일 주소, 데이터 타입, 기능 코드 등)을 정확히 알고 있어야 합니다.
+*   **Modbus PLC 주소 맵 확보**: 연결하려는 Modbus PLC의 Modbus 주소 맵(레지스터/코일 주소, 데이터 타입, 기능 코드 등)을 정확히 알고 있어야 합니다.
 
 ### 3. Modbus 주소 맵 이해
 
@@ -37,7 +37,7 @@ Modbus 통신을 위한 PLC 연결 정보를 설정합니다.
 2.  노드를 더블 클릭하여 설정 창을 엽니다.
 3.  "Server" 옆의 연필 아이콘을 클릭하여 새 Modbus Server를 추가합니다.
     *   **Type**: `TCP`를 선택합니다.
-    *   **Host**: LS PLC의 **IP 주소**를 입력합니다.
+    *   **Host**: Modbus **PLC의 IP 주소**를 입력합니다.
     *   **Port**: 일반적으로 Modbus TCP의 기본 포트는 `502`입니다. PLC 설정에 따라 다를 수 있으니 확인 후 입력하세요.
     *   **Unit-Id**: PLC의 Modbus Unit ID를 입력합니다. (대부분의 Modbus TCP 통신에서는 1로 설정되거나 무시될 수 있습니다. PLC 설명서를 확인하세요.)
     *   "Add"를 클릭하여 서버 설정을 저장합니다.
@@ -90,7 +90,7 @@ return msg;
 
 ### 5. 예제 플로우: Holding Register 값 읽기
 
-다음은 LS PLC의 40001번 Holding Register (0-based 주소 40000)에서 16비트 정수 값을 읽어와 디버그 창에 표시하는 간단한 플로우 예시입니다.
+다음은 Modbus PLC의 40001번 Holding Register (0-based 주소 40000)에서 16비트 정수 값을 읽어와 디버그 창에 표시하는 간단한 플로우 예시입니다.
 
 1.  `Modbus Read` 노드를 플로우로 드래그합니다.
 2.  노드를 더블 클릭하여 Modbus Server를 PLC IP 주소와 포트 502로 설정합니다.
@@ -116,6 +116,4 @@ return msg;
     *   **주소 불일치**: PLC 주소 맵과 Node-RED의 Address 설정이 정확히 일치하는지 (0-based vs 1-based) 다시 확인합니다.
     *   **데이터 타입 불일치**: PLC에서 저장된 데이터 타입과 `Function` 노드에서 변환하는 방식이 일치하는지 확인합니다. 특히 32비트 값의 Endianness를 주의 깊게 확인합니다.
     *   **Quantity 부족**: 32비트 값처럼 여러 레지스터에 걸쳐 저장되는 데이터의 경우 Quantity가 충분히 설정되었는지 확인합니다.
-*   **Node-RED 로그 확인**: Node-RED 컨테이너의 로그(`docker-compose logs nodered`)를 확인하여 Modbus 통신 관련 상세 오류 메시지를 파악합니다.
-
----
+    *   **Node-RED 로그 확인**: Node-RED 컨테이너의 로그(`docker-compose logs nodered`)를 확인하여 Modbus 통신 관련 상세 오류 메시지를 파악합니다.
