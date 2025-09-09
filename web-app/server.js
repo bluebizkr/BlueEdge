@@ -22,7 +22,8 @@ app.get('/api/plc-address-map', (req, res) => {
 });
 
 // WebSocket server setup
-const wss = new WebSocket.Server({ port: 3001 }); // WebSocket server on port 3001
+const websocketPort = 3001;
+const wss = new WebSocket.Server({ port: websocketPort }); // WebSocket server on port 3001
 
 wss.on('connection', ws => {
   console.log('WebSocket client connected');
@@ -62,4 +63,4 @@ app.listen(port, () => {
   console.log(`Web application backend listening on port ${port}`);
 });
 
-console.log('WebSocket server started on port 3001');
+console.log(`WebSocket server started on port ${websocketPort}`);

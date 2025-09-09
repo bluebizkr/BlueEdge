@@ -38,7 +38,7 @@ services:
       - "3003:3000" # Web app frontend
       - "3001:3001" # Web app WebSocket server
     volumes:
-      - plc_config:/app/config # Shared volume for plc_address_map.json
+      - ./config:/config # Mount host's config directory to /config in container
     depends_on:
       - nodered
       - mosquitto
