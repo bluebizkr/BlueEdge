@@ -8,6 +8,47 @@ services:
     volumes:
       - ./data:/data
       - ./config/settings.js:/data/settings.js
+      - plc_config:/usr/src/node-red/config # Shared volume for plc_address_map.json
     environment:
       - TZ=Asia/Seoul
     restart: unless-stopped
+    networks:
+      - plc_monitoring_network
+
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    ports:
+      - "1883:1883" # Standard MQTT port
+      - "9001:9001" # MQTT over WebSockets
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    restart: unless-stopped
+    networks:
+      - plc_monitoring_network
+
+  web-app:
+    build:
+      context: ./web-app
+      dockerfile: Dockerfile.dev # We will create this Dockerfile
+    container_name: web_app
+    ports:
+      - "3000:3000" # Web app frontend
+      - "3001:3001" # Web app WebSocket server
+    volumes:
+      - ./web-app:/app
+      - plc_config:/app/config # Shared volume for plc_address_map.json
+    depends_on:
+      - nodered
+      - mosquitto
+    networks:
+      - plc_monitoring_network
+
+networks:
+  plc_monitoring_network:
+    driver: bridge
+
+volumes:
+  plc_config:

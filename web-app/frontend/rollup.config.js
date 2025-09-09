@@ -1,0 +1,68 @@
+import svelte from 'rollup-plugin-svelte';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import livereload from 'rollup-plugin-livereload';
+import { terser } from 'rollup-plugin-terser';
+import css from 'rollup-plugin-css-only';
+
+const production = !process.env.ROLLUP_WATCH;
+
+function serve() {
+	let server;
+
+	function toExit() {
+		if (server) server.kill(0);
+	}
+
+	return {
+		writeBundle() {
+			if (server) return;
+			server = require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
+				stdio: ['ignore', 'inherit', 'inherit'],
+				cwd: 'web-app/frontend'
+			});
+
+			process.on('SIGTERM', toExit);
+			process.on('exit', toExit);
+		}
+	};
+}
+
+export default {
+	input: 'src/main.js',
+	output: {
+		sourcemap: true,
+		format: 'iife',
+		name: 'app',
+		file: 'public/build/bundle.js'
+	},
+	plugins: [
+		svelte({
+			compilerOptions: {
+				// enable run-time checks when not in production
+				dev: !production
+			}
+		}),
+		// we'll extract any component CSS out into a separate file - better for performance
+		css({ output: 'bundle.css' }),
+
+		// If you have external dependencies installed from npm, you'll most likely need these plugins. In many cases you'll just want to use 'node-resolve' and 'commonjs' but if you have 3rd party dependencies like svelte-spa-router or rollup-plugin-svelte-svg then you'll need to install them as well.
+		resolve({
+			browser: true,
+			dedup: ['svelte']
+		}),
+		commonjs(),
+
+		// In dev mode, call `npm run start` once the bundle is generated
+		!production && serve(),
+
+		// Watch the `public` directory and refresh the browser on changes when not in production
+		!production && livereload('public'),
+
+		// If we're building for production (npm run build instead of npm run dev), minify
+		production && terser()
+	],
+	watch: {
+		clearScreen: false
+	}
+};

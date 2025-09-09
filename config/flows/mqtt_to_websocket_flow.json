@@ -1,0 +1,53 @@
+[
+    {
+        "id": "mqtt_to_websocket_tab",
+        "type": "tab",
+        "label": "MQTT to WebSocket Bridge",
+        "disabled": false,
+        "info": "Bridge MQTT data to WebSocket for web application"
+    },
+    {
+        "id": "mqtt_in_node",
+        "type": "mqtt in",
+        "z": "mqtt_to_websocket_tab",
+        "name": "Subscribe to PLC Data",
+        "topic": "plc/data/#",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "mqtt_broker_config",
+        "x": 200,
+        "y": 100,
+        "wires": [
+            ["websocket_out_node"]
+        ]
+    },
+    {
+        "id": "websocket_out_node",
+        "type": "websocket out",
+        "z": "mqtt_to_websocket_tab",
+        "name": "Send to WebApp WebSocket",
+        "server": "ws_client_config",
+        "client": "",
+        "x": 450,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "mqtt_broker_config",
+        "type": "mqtt-broker",
+        "name": "MQTT Broker",
+        "broker": "mosquitto",
+        "port": "1883",
+        "clientid": "node-red-websocket-client",
+        "usetls": false,
+        "compatmode": false,
+        "keepalive": "60",
+        "cleansession": true
+    },
+    {
+        "id": "ws_client_config",
+        "type": "websocket-client",
+        "path": "ws://web-app:3001",
+        "wholemsg": "false"
+    }
+]

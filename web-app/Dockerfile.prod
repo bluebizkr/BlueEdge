@@ -1,0 +1,18 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package.json ./ # Copy web-app's package.json
+
+RUN npm install --production
+
+COPY . .
+
+WORKDIR /app/frontend
+
+RUN npm install --production
+RUN npm run build
+
+WORKDIR /app
+
+CMD ["node", "server.js"]
