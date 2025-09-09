@@ -35,7 +35,7 @@ services:
       dockerfile: Dockerfile.prod # We will create this Dockerfile
     container_name: web_app_prod
     ports:
-      - "3000:3000" # Web app frontend
+      - "3003:3000" # Web app frontend
       - "3001:3001" # Web app WebSocket server
     volumes:
       - plc_config:/app/config # Shared volume for plc_address_map.json

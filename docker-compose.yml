@@ -35,7 +35,7 @@ services:
       dockerfile: Dockerfile.dev # We will create this Dockerfile
     container_name: web_app
     ports:
-      - "3000:3000" # Web app frontend
+      - "3003:3000" # Web app frontend
       - "3001:3001" # Web app WebSocket server
     volumes:
       - ./web-app:/app
