@@ -30,15 +30,12 @@ services:
       - plc_monitoring_network
 
   web-app:
-    build:
-      context: ./web-app
-      dockerfile: Dockerfile.dev # We will create this Dockerfile
+    image: human109/blue-edge:latest
     container_name: web_app
     ports:
       - "3003:3000" # Web app frontend
       - "3001:3001" # Web app WebSocket server
     volumes:
-      - ./web-app:/app
       - ./config:/config # Mount host's config directory to /config in container
     depends_on:
       - nodered
