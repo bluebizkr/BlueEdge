@@ -29,9 +29,14 @@ wss.on('connection', ws => {
   console.log('WebSocket client connected');
 
   ws.on('message', message => {
-    console.log(`Received message from client: ${message}`);
-    // You can process messages from the client here if needed
-  });
+  console.log(`Received message from client: ${message}`);
+  try {
+    const parsedMessage = JSON.parse(message);
+    app.locals.sendWebSocketMessage(parsedMessage);
+  } catch (error) {
+    console.error('Error parsing WebSocket message from client:', error);
+  }
+});
 
   ws.on('close', () => {
     console.log('WebSocket client disconnected');
@@ -44,6 +49,7 @@ wss.on('connection', ws => {
 
 // Function to send data to all connected WebSocket clients
 app.locals.sendWebSocketMessage = (data) => {
+  console.log('Attempting to send WebSocket message to frontend:', data);
   wss.clients.forEach(client => {
     if (client.readyState === WebSocket.OPEN) {
       client.send(JSON.stringify(data));

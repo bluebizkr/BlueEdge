@@ -19,6 +19,7 @@
       console.log('Received WebSocket data:', newData);
       // Update plcData with all key-value pairs from the received data
       plcData = { ...plcData, ...newData };
+      console.log('Updated plcData in Svelte:', plcData);
     };
 
     ws.onclose = () => {
