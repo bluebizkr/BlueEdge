@@ -6,3 +6,7 @@ yarn.lock
 pnpm-lock.yaml
 mosquitto/log/
 web-app/frontend/public/build/
+BlueEdge-master.zip
+
+.obsidian
+mosquitto/data/
