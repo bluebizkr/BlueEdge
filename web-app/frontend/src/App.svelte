@@ -25,12 +25,10 @@
     };
 
     ws.onmessage = event => {
-      const data = JSON.parse(event.data);
-      console.log('Received WebSocket data:', data);
-      // Update plcData with real-time values
-      if (data.topic && data.payload !== undefined) {
-        plcData = { ...plcData, [data.topic]: data.payload };
-      }
+      const newData = JSON.parse(event.data);
+      console.log('Received WebSocket data:', newData);
+      // Update plcData with all key-value pairs from the received data
+      plcData = { ...plcData, ...newData };
     };
 
     ws.onclose = () => {
