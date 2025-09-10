@@ -5,17 +5,7 @@
   let ws;
 
   onMount(() => {
-    // Fetch initial PLC address map
-    fetch('/api/plc-address-map')
-      .then(res => res.json())
-      .then(data => {
-        console.log('PLC Address Map:', data);
-        // Initialize plcData with names from the address map
-        data.forEach(item => {
-          plcData[item.name] = 'N/A';
-        });
-      })
-      .catch(err => console.error('Error fetching PLC address map:', err));
+    
 
     // WebSocket connection to receive real-time data from Node-RED via backend
     ws = new WebSocket(`ws://${window.location.hostname}:3001`); // Connect to backend WebSocket server
